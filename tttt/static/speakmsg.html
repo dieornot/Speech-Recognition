@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>语音日志</title>
+    <script rel="stylesheet"  src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+table tbody {
+    display:block;
+    height:195px;
+    overflow-y:scroll;
+}
+
+table thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+
+table thead {
+    width: calc( 100% - 1em )
+}
+table thead th{ background:#ccc;}
+</style>
+</head>
+<body>
+<div class="materialContainer1">
+    <div class="box1">
+        语音日志
+
+        <table id="table">
+            <tbody id="tbody">
+            <tr>
+                <th>用户名</th>
+                <th>用户说</th>
+                <th>语音助手说</th>
+                <th>对话时间</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+<script>
+
+    $(document).ready(function (){
+        $.ajax({
+            url: "/speakmsg",
+            method: "GET",
+            success: function (data) {
+                var tbody = document.getElementById("tbody");
+                var innerHTML = tbody.innerHTML;
+                var html;
+                for (var i = 0; i < data.length; i++) {
+                    var for_data = data[i];
+                    console.log(for_data);
+                    html =
+                        "<tr>" +
+                        "<th>" + for_data[1] + "</th>" +
+                        "<th>" + for_data[2] + "</th>" +
+                        "<th>" + for_data[3] + "</th>" +
+                        "<th>" + for_data[4] + "</th>" +
+                        "<tr>";
+                    innerHTML = innerHTML + html;
+                    tbody.innerHTML = innerHTML;
+                }
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    })
+</script>

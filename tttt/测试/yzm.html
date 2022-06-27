@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证码</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        box-sizing: border-box;
+    }
+
+    .yzmbox {
+        position: relative;
+        width: 200px;
+        margin: 15% auto;
+    }
+
+    .yzm{
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 30px;
+        background-color: rgba(147, 143, 143, 0.64);
+        color: aliceblue;
+    }
+
+    input {
+        outline: none;
+        width: 200px;
+        height: 20px;
+        margin: 5px 0;
+        text-indent: 5px;
+    }
+    button {
+        width: 200px;
+        height: 40px;
+    }
+    p {
+        position: absolute;
+        width: 200px;
+        top: 54px;
+        left: 210px;
+        text-align: left;
+    }
+    .r{
+        color: red;
+    }
+
+    .g{
+        color: green;
+    }
+</style>
+
+<body>
+<div class="yzmbox">
+    <div class="yzm"></div>
+        <input type="text"><br>
+        <p></p>
+        <button>验证</button>
+</div>
+</body>
+</html>
+<script>
+    var btn = document.querySelector('button');
+    var ipt = document.querySelector('input');
+    var div = document.querySelector('.yzm');
+    var p = document.querySelector('p');
+
+    div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+
+    //Math.radom() 随机获取
+    //toString() 截取36个字符 0-9 a-z
+    //substr 字符串位移
+    //slice() 截取字符串，从第0个截取到第4个
+    div.onclick = function(){
+        div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+    };
+    //点击刷新验证码
+
+    btn.onclick = function(){
+        if (ipt.value == div.innerHTML){
+            p.innerHTML = '验证成功'
+            p.className = 'g'
+        }else{
+            p.innerHTML = '验证失败'
+            p.className = 'r'
+            div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+            //验证码错误刷新验证码
+        }
+    }
+</script>

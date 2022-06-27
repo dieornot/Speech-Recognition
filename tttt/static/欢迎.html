@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <script rel="stylesheet"  src="js/jquery.min.js"></script>
+    <script  rel="stylesheet" src="js/record.js"></script>
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>语音助手系统</title>
+
+</head>
+
+<body >
+<div class="materialContainer1">
+    <div class="box1">
+
+        <div class="button login">
+			<button id="blogLogin" onclick="start()">
+				<span>开始说话</span>
+				<i class="fa fa-check"></i>
+			</button>
+		</div>
+
+        <div class="button login">
+			<button id="blogLogin" onclick="window.location.href= './speakmsg.html' ">
+				<span>语音日志</span>
+				<i class="fa fa-check"></i>
+			</button>
+		</div>
+        <div class="input">你刚才说：
+        <input type="text" class='text' disabled="disabled">
+        </div>
+
+        <div class="input">语音助手：
+        <input type="text"  id="aisay" class='aiText' disabled="disabled">
+        </div>
+        
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function start() {
+        let words = document.querySelector('.text')
+        let aiWords = document.querySelector('.aiText')
+        $.ajax({
+            url: "/aiaudio",
+            method: "GET",
+            success: function (data) {
+                console.log(data)
+                words.value = data.words
+                aiWords.value = data.aiWords
+                $.post('/aispeaker',data)
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+        console.log('start')
+    }
+</script>

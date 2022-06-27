@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+
+</head>
+<style>
+    .yzm {
+        position: absolute;
+        right: 0px;
+        bottom:10px;
+        width: 100px;
+        height: 40px;
+        background-color: rgba(147, 143, 143, 0.64);
+        font-size: 30px;
+        user-select: none;
+        text-align: center;
+    }
+</style>
+<body>
+<div class="materialContainer">
+        <div class="box">
+            <div class="title">注册</div>
+            <div class="input">
+                <input placeholder="用户名" type="text" name="username" id="name">
+                <span class="spin"></span>
+            </div>
+            <div class="input">
+                <input placeholder="密码" type="password" name="password" id="pass">
+                <span class="spin"></span>
+            </div>
+            <div class="input">
+
+                <input placeholder="确认密码" type="password" name="passwordok" id="passok">
+                <span class="spin"></span>
+            </div>
+            <div class="input">
+            <input placeholder="验证码" type="text" name = "yzm" id="yzm">
+            <div class="yzm" ></div>
+			<span class="spin"></span>
+		</div>
+            <div class="button login">
+                <button id="register">
+                    <span>提交</span>
+                    <i class="fa fa-check"></i>
+                </button>
+            </div>
+        </div>
+</div>
+</div>
+</body>
+</html>
+<script>
+    let btn = document.querySelector('#register');
+    let yzm = document.querySelector('#yzm')
+    let div = document.querySelector('.yzm');
+    div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+    div.onclick = function(){
+        div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+    };
+    btn.onclick = function(){
+         let name = document.getElementById("name").value;
+         let pass = document.getElementById("pass").value;
+         let passok = document.getElementById("passok").value;
+         if (yzm.value == div.innerHTML){
+             $.post("/register",{"username":name,"password":pass,"passwordok":passok},function(data){
+                if (data==0){
+                    alert('用户名已存在');
+                    window.location.href='./register.html';
+                }else if(data==-1){
+                    alert('确认密码不一致');
+                    window.location.href='./register.html';
+                }else if(data==1){
+                    alert('注册成功');
+                    window.location.href='./passwordLogin.html';
+                }else if(data==2){
+                    alert('参数错误，请重新输入');
+                    window.location.href='./register.html';
+                }else if(data==3){
+                    alert('注册失败');
+                    window.location.href='./register.html';
+                }
+
+             })
+         }else{
+             alert('验证码错误');
+             div.innerHTML = Math.random().toString(36).substr(2).slice(0,4)
+         }
+     }
+</script>
+
